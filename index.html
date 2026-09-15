@@ -3,75 +3,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bollywood Beats</title>
+
+  <title>Bollywood Beats | Hindi Music Collection</title>
+  <meta name="description" content="Bollywood Beats - 90s songs, Bollywood music and YouTube collection">
 
   <style>
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #080808;
+      color: #fff;
     }
 
+    /* HEADER */
     header {
+      min-height: 430px;
+      padding: 25px 20px 60px;
       text-align: center;
-      padding: 35px 15px;
-      background: linear-gradient(135deg, #8e2de2, #ff512f);
+      background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.75)),
+        linear-gradient(135deg, #7b2cff, #ff1744, #ff8a00);
+      position: relative;
+      overflow: hidden;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 38px;
+    .topbar {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
     }
 
-    header p {
-      margin: 10px 0 0;
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .youtube-btn {
+      text-decoration: none;
+      color: white;
+      background: #ff0033;
+      padding: 11px 18px;
+      border-radius: 30px;
+      font-weight: bold;
+      box-shadow: 0 5px 20px rgba(255,0,51,.35);
+    }
+
+    .hero {
+      max-width: 850px;
+      margin: 80px auto 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 76px);
+      margin-bottom: 15px;
+      text-shadow: 0 5px 25px rgba(0,0,0,.5);
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #eee;
+      margin-bottom: 25px;
+    }
+
+    .hero-button {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background: linear-gradient(90deg, #ff1744, #ff6d00);
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-weight: bold;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1150px;
+      margin: -35px auto 0;
+      padding: 0 18px 50px;
+      position: relative;
+    }
+
+    /* SEARCH */
+    .search-box {
+      background: #151515;
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.45);
+      margin-bottom: 35px;
+    }
+
+    #search {
+      width: 100%;
+      padding: 16px 20px;
+      border: 1px solid #333;
+      outline: none;
+      border-radius: 12px;
+      background: #0d0d0d;
+      color: white;
       font-size: 16px;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 25px 15px;
+    #search::placeholder {
+      color: #888;
     }
 
-    .video {
-      background: #1e1e1e;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    /* CATEGORY */
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 30px 0 20px;
     }
 
-    .video h2 {
-      font-size: 20px;
-      margin: 5px 0 15px;
+    .section-title h2 {
+      font-size: 27px;
     }
 
-    iframe {
+    .section-title span {
+      color: #ff416c;
+      font-size: 14px;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 30px;
+    }
+
+    .category {
+      border: 1px solid #333;
+      background: #151515;
+      color: #ddd;
+      padding: 10px 18px;
+      border-radius: 25px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .category:hover,
+    .category.active {
+      background: linear-gradient(90deg, #ff1744, #7b2cff);
+      border-color: transparent;
+      color: white;
+    }
+
+    /* VIDEO GRID */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .video-card {
+      background: #151515;
+      border: 1px solid #292929;
+      border-radius: 18px;
+      padding: 12px;
+      overflow: hidden;
+      transition: .3s;
+      box-shadow: 0 8px 25px rgba(0,0,0,.3);
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff416c;
+      box-shadow: 0 15px 35px rgba(255,65,108,.15);
+    }
+
+    .video-title {
+      font-size: 18px;
+      padding: 10px 6px 14px;
+      font-weight: bold;
+    }
+
+    .video-frame {
       width: 100%;
-      height: 480px;
-      border: 0;
+      aspect-ratio: 16 / 9;
+      border: none;
       border-radius: 12px;
+      display: block;
     }
 
+    .video-info {
+      padding: 12px 5px 5px;
+      color: #999;
+      font-size: 13px;
+    }
+
+    /* CHANNEL */
+    .channel {
+      margin-top: 45px;
+      padding: 35px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #171717, #211021);
+      border: 1px solid #333;
+      border-radius: 20px;
+    }
+
+    .channel h2 {
+      margin-bottom: 10px;
+    }
+
+    .channel p {
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+
+    .channel a {
+      display: inline-block;
+      background: #ff0033;
+      color: white;
+      text-decoration: none;
+      padding: 13px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+    }
+
+    /* FOOTER */
     footer {
       text-align: center;
-      padding: 25px;
-      color: #aaa;
+      padding: 35px 15px;
+      border-top: 1px solid #222;
+      color: #777;
+      font-size: 14px;
     }
 
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 30px;
+    /* MOBILE */
+    @media (max-width: 700px) {
+
+      header {
+        min-height: 370px;
       }
 
-      iframe {
-        height: 230px;
+      .topbar {
+        flex-direction: column;
+      }
+
+      .hero {
+        margin-top: 55px;
+      }
+
+      .hero h1 {
+        font-size: 44px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      main {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title h2 {
+        font-size: 22px;
       }
     }
   </style>
@@ -79,34 +284,218 @@
 
 <body>
 
+  <!-- HEADER -->
   <header>
-    <h1>🎵 Bollywood Beats 🎵</h1>
-    <p>90s Songs • Bollywood Music • YouTube Collection</p>
+
+    <div class="topbar">
+      <div class="logo">🎵 Bollywood Beats</div>
+
+      <a
+        class="youtube-btn"
+        href="https://youtube.com/@always_smile_14321"
+        target="_blank">
+        ▶ YouTube Channel
+      </a>
+    </div>
+
+    <div class="hero">
+      <h1>Bollywood Beats</h1>
+
+      <p>
+        90s Songs • Bollywood Music • Classic Collection
+      </p>
+
+      <a class="hero-button" href="#videos">
+        🎬 Explore Videos
+      </a>
+    </div>
+
   </header>
 
-  <div class="container">
 
-    <div class="video">
-      <h2>🎶 Bollywood 90s Song Collection</h2>
-      <iframe
-        src="https://www.youtube.com/embed/JsT8DsyQxRw"
-        allowfullscreen>
-      </iframe>
+  <!-- MAIN -->
+  <main>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="search"
+        placeholder="🔍 Search your favourite video..."
+        onkeyup="searchVideos()">
     </div>
 
-    <div class="video">
-      <h2>❤️ Happy Marriage Life</h2>
-      <iframe
-        src="https://www.youtube.com/embed/U1rv3E8Deh8"
-        allowfullscreen>
-      </iframe>
+
+    <!-- CATEGORIES -->
+    <div class="section-title">
+      <h2>🎶 Categories</h2>
+      <span>Music Collection</span>
     </div>
 
-  </div>
+    <div class="categories">
+      <button class="category active" onclick="filterVideos('all', this)">
+        All
+      </button>
 
+      <button class="category" onclick="filterVideos('90s', this)">
+        🎵 90s Songs
+      </button>
+
+      <button class="category" onclick="filterVideos('bollywood', this)">
+        🎬 Bollywood
+      </button>
+
+      <button class="category" onclick="filterVideos('other', this)">
+        ❤️ Others
+      </button>
+    </div>
+
+
+    <!-- VIDEOS -->
+    <section id="videos">
+
+      <div class="section-title">
+        <h2>🔥 Featured Videos</h2>
+        <span>Latest Collection</span>
+      </div>
+
+
+      <div class="video-grid">
+
+        <!-- VIDEO 1 -->
+        <div class="video-card" data-category="90s bollywood">
+
+          <div class="video-title">
+            🎵 Bollywood 90s Song Collection
+          </div>
+
+          <iframe
+            class="video-frame"
+            src="https://www.youtube.com/embed/JsT8DsyQxRw"
+            title="Bollywood 90s Song Collection"
+            allowfullscreen>
+          </iframe>
+
+          <div class="video-info">
+            🎧 Classic Bollywood • 90s Music
+          </div>
+
+        </div>
+
+
+        <!-- VIDEO 2 -->
+        <div class="video-card" data-category="other">
+
+          <div class="video-title">
+            ❤️ Happy Marriage Life
+          </div>
+
+          <iframe
+            class="video-frame"
+            src="https://www.youtube.com/embed/U1rv3E8Deh8"
+            title="Happy Marriage Life"
+            allowfullscreen>
+          </iframe>
+
+          <div class="video-info">
+            ❤️ Special Memories
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CHANNEL -->
+    <div class="channel">
+
+      <h2>📺 Follow Bollywood Beats</h2>
+
+      <p>
+        More videos and music collections on our YouTube channel.
+      </p>
+
+      <a
+        href="https://youtube.com/@always_smile_14321"
+        target="_blank">
+        ▶ Visit YouTube Channel
+      </a>
+
+    </div>
+
+  </main>
+
+
+  <!-- FOOTER -->
   <footer>
-    © 2026 Bollywood Beats | YouTube Music Collection
+
+    © 2026 Bollywood Beats
+    <br>
+    YouTube Music Collection
+
   </footer>
+
+
+  <!-- SEARCH + FILTER -->
+  <script>
+
+    function searchVideos() {
+
+      let input =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+      let videos =
+        document.querySelectorAll(".video-card");
+
+      videos.forEach(function(video) {
+
+        let text =
+          video.innerText.toLowerCase();
+
+        if (text.includes(input)) {
+          video.style.display = "";
+        } else {
+          video.style.display = "none";
+        }
+
+      });
+
+    }
+
+
+    function filterVideos(category, button) {
+
+      document
+        .querySelectorAll(".category")
+        .forEach(function(btn) {
+          btn.classList.remove("active");
+        });
+
+      button.classList.add("active");
+
+      let videos =
+        document.querySelectorAll(".video-card");
+
+      videos.forEach(function(video) {
+
+        if (
+          category === "all" ||
+          video.dataset.category.includes(category)
+        ) {
+          video.style.display = "";
+        } else {
+          video.style.display = "none";
+        }
+
+      });
+
+    }
+
+  </script>
 
 </body>
 </html>
