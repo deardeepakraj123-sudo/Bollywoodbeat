@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://deardeepakraj123-sudo.github.io/Bollywoodbeat/sitemap.xml
