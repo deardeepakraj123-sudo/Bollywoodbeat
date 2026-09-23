@@ -1,533 +1,768 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bollywood Beat - Hindi music, romantic songs and Bollywood music collection.">
+  <title>Bollywood Beat | Hindi Music</title>
 
-<title>Bollywood Beats | Hindi Music Collection</title>
+  <script>
+    try {
+      if (localStorage.getItem("bollywoodBeatTheme") === "dark") {
+        document.documentElement.classList.add("preload-dark");
+      }
+    } catch(e) {}
+  </script>
+  <style>
+    * { box-sizing: border-box; }
 
-<meta name="description" content="Bollywood Beats - Hindi music, romantic songs, 90s songs and Bollywood videos.">
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#18202a;
+      --muted:#667085;
+      --border:#dfe5ec;
+      --primary:#e91e63;
+      --secondary:#7c3aed;
+      --accent:#ff8a00;
+      --shadow:0 8px 25px rgba(20,30,50,.08);
+    }
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    html.preload-dark body{\n      --bg:#111827;\n      --card:#1f2937;\n      --text:#f8fafc;\n      --muted:#cbd5e1;\n      --border:#374151;\n      --shadow:0 8px 25px rgba(0,0,0,.25);\n    }\n\n    body.dark{
+      --bg:#111827;
+      --card:#1f2937;
+      --text:#f8fafc;
+      --muted:#cbd5e1;
+      --border:#374151;
+      --shadow:0 8px 25px rgba(0,0,0,.25);
+    }
 
-body{
-  font-family:Arial,sans-serif;
-  background:#080a0f;
-  color:#fff;
-}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      transition:.25s;
+    }
 
-header{
-  text-align:center;
-  padding:55px 20px;
-  background:linear-gradient(135deg,#7117c8,#1769e0);
-}
+    button, input{font:inherit}
 
-header h1{
-  font-size:42px;
-  margin-bottom:10px;
-}
+    .page{
+      width:min(1200px,94%);
+      margin:18px auto;
+    }
 
-header p{
-  opacity:.9;
-}
+    /* TOP HEADER */
+    .top-header{
+      display:grid;
+      grid-template-columns:1fr 220px;
+      gap:0;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px 20px 0 0;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
 
-.container{
-  width:92%;
-  max-width:1050px;
-  margin:auto;
-}
+    .brand{
+      min-height:150px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:25px;
+      background:linear-gradient(135deg,#fff,#fff7fb);
+    }
 
-section{
-  padding:35px 0;
-}
+    body.dark .brand{
+      background:linear-gradient(135deg,#1f2937,#111827);
+    }
 
-.title{
-  text-align:center;
-  font-size:28px;
-  margin-bottom:22px;
-}
+    .brand h1{
+      margin:0;
+      font-size:clamp(34px,6vw,64px);
+      letter-spacing:1px;
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-align:center;
+    }
 
-/* MUSIC PLAYER */
+    .brand p{
+      margin:8px 0 0;
+      color:var(--muted);
+      text-align:center;
+    }
 
-.music-player{
-  max-width:600px;
-  margin:auto;
-  background:linear-gradient(145deg,#171b25,#10131a);
-  border-radius:25px;
-  padding:25px;
-  box-shadow:0 15px 40px rgba(0,0,0,.45);
-}
+    .clock-box{
+      padding:24px;
+      border-left:1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:12px;
+    }
 
-.cover{
-  width:180px;
-  height:180px;
-  margin:5px auto 20px;
-  border-radius:20px;
-  background:linear-gradient(135deg,#ff416c,#8e2de2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:75px;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
-}
+    .clock-box div{
+      font-weight:700;
+      color:var(--muted);
+    }
 
-.now-playing{
-  text-align:center;
-}
+    .clock-box strong{
+      display:block;
+      color:var(--text);
+      font-size:20px;
+      margin-top:4px;
+    }
 
-.now-playing h2{
-  font-size:23px;
-  margin-bottom:5px;
-}
+    /* NAV BUTTONS */
+    .toolbar{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      padding:12px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-top:0;
+      box-shadow:var(--shadow);
+    }
 
-.now-playing p{
-  color:#aeb4c0;
-  margin-bottom:20px;
-}
+    .tool-btn{
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--text);
+      border-radius:12px;
+      padding:14px 10px;
+      cursor:pointer;
+      font-weight:700;
+    }
 
-audio{
-  width:100%;
-}
+    .tool-btn:hover{border-color:var(--primary); transform:translateY(-1px)}
 
-.playlist{
-  margin-top:25px;
-}
+    .theme-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+    }
 
-.playlist-title{
-  font-size:18px;
-  margin-bottom:12px;
-}
+    /* MAIN GRID */
+    .dashboard{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:1.05fr 1.8fr 1fr;
+      grid-template-areas:
+        "qr categories comments"
+        "description description about"
+        "player player player";
+      gap:14px;
+    }
 
-.song{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  padding:15px;
-  margin:8px 0;
-  background:#20242e;
-  border-radius:14px;
-  cursor:pointer;
-  transition:.2s;
-}
+    .box{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
 
-.song:hover{
-  background:#292e3a;
-}
+    .qr{grid-area:qr;text-align:center}
+    .categories{grid-area:categories}
+    .comments{grid-area:comments}
+    .description{grid-area:description}
+    .about{grid-area:about}
+    .player{grid-area:player}
 
-.song.active{
-  background:linear-gradient(90deg,#7117c8,#1769e0);
-}
+    .box h2{
+      margin:0 0 12px;
+      font-size:20px;
+    }
 
-.song-icon{
-  width:42px;
-  height:42px;
-  border-radius:10px;
-  background:#11151d;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-}
+    .qr img{
+      width:170px;
+      height:170px;
+      max-width:100%;
+      border-radius:12px;
+      border:8px solid white;
+      box-shadow:0 4px 15px rgba(0,0,0,.12);
+    }
 
-.song-info{
-  flex:1;
-}
+    .small-note{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+      margin:10px 0 0;
+    }
 
-.song-info strong{
-  display:block;
-}
+    .category-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+    }
 
-.song-info small{
-  color:#aeb4c0;
-}
+    .category{
+      border:1px solid var(--border);
+      background:var(--bg);
+      color:var(--text);
+      border-radius:999px;
+      padding:10px 15px;
+      cursor:pointer;
+      font-weight:700;
+    }
 
-/* SEARCH */
+    .category.active,
+    .category:hover{
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+      color:#fff;
+      border-color:transparent;
+    }
 
-.search{
-  width:100%;
-  padding:15px 18px;
-  border:0;
-  outline:0;
-  border-radius:30px;
-  background:#181c25;
-  color:#fff;
-  font-size:16px;
-  margin-bottom:20px;
-}
+    .search-wrap{
+      margin-top:15px;
+      display:none;
+      gap:8px;
+    }
 
-.categories{
-  text-align:center;
-  margin-bottom:20px;
-}
+    .search-wrap.show{display:flex}
 
-.category{
-  border:0;
-  padding:10px 18px;
-  margin:5px;
-  border-radius:22px;
-  background:#191d26;
-  color:#fff;
-  cursor:pointer;
-}
+    .search-wrap input{
+      flex:1;
+      min-width:0;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--card);
+      color:var(--text);
+      outline:none;
+    }
 
-.category:hover{
-  background:#7117c8;
-}
+    .search-btn{
+      border:0;
+      border-radius:12px;
+      padding:0 16px;
+      background:var(--primary);
+      color:white;
+      cursor:pointer;
+      font-weight:700;
+    }
 
-/* VIDEOS */
+    .comment-form{
+      display:flex;
+      flex-direction:column;
+      gap:9px;
+    }
 
-.video-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:20px;
-}
+    .comment-form input,
+    .comment-form textarea{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:11px;
+      background:var(--card);
+      color:var(--text);
+      resize:vertical;
+    }
 
-.video-card{
-  background:#151922;
-  padding:18px;
-  border-radius:18px;
-}
+    .comment-form button,
+    .support-btn{
+      border:0;
+      border-radius:10px;
+      padding:11px 14px;
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+      color:#fff;
+      cursor:pointer;
+      font-weight:700;
+    }
 
-.video-card h3{
-  margin-bottom:14px;
-}
+    #commentMessage{
+      color:var(--muted);
+      font-size:13px;
+      margin:0;
+    }
 
-.video-wrapper{
-  position:relative;
-  width:100%;
-  padding-top:56.25%;
-  overflow:hidden;
-  border-radius:12px;
-}
+    .about p,
+    .description p{
+      color:var(--muted);
+      line-height:1.7;
+      margin:0;
+    }
 
-.video-wrapper iframe{
-  position:absolute;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  border:0;
-}
+    /* PLAYER */
+    .player-inner{
+      max-width:850px;
+      margin:auto;
+    }
 
-/* BUTTON */
+    .now-playing{
+      text-align:center;
+      margin-bottom:15px;
+    }
 
-.btn{
-  display:inline-block;
-  padding:12px 22px;
-  border-radius:25px;
-  background:#fff;
-  color:#222;
-  text-decoration:none;
-  font-weight:bold;
-  margin-top:20px;
-}
+    .now-playing h2{
+      margin-bottom:4px;
+      color:var(--text);
+    }
 
-/* FOLLOW */
+    .now-playing p{
+      margin:0;
+      color:var(--muted);
+    }
 
-.follow{
-  text-align:center;
-  padding:35px 20px;
-  border-radius:20px;
-  background:#12161e;
-}
+    audio{
+      width:100%;
+      margin:10px 0 16px;
+    }
 
-footer{
-  text-align:center;
-  padding:30px;
-  color:#858c99;
-  font-size:14px;
-}
+    .playlist{
+      display:flex;
+      flex-direction:column;
+      gap:9px;
+    }
 
-.hidden{
-  display:none;
-}
+    .song{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      cursor:pointer;
+      background:var(--bg);
+    }
 
-@media(max-width:700px){
+    .song:hover,
+    .song.active{
+      border-color:var(--primary);
+    }
 
-  header h1{
-    font-size:34px;
-  }
+    .song-icon{
+      width:42px;
+      height:42px;
+      flex:0 0 42px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:#fff;
+      font-size:16px;
+    }
 
-  .video-grid{
-    grid-template-columns:1fr;
-  }
+    .song-info strong{
+      display:block;
+      margin-bottom:3px;
+    }
 
-  .cover{
-    width:155px;
-    height:155px;
-    font-size:65px;
-  }
-}
-</style>
+    .song-info small{
+      color:var(--muted);
+    }
+
+    .no-results{
+      display:none;
+      color:var(--muted);
+      text-align:center;
+      padding:12px;
+    }
+
+    footer{
+      margin-top:15px;
+      text-align:center;
+      padding:20px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* SUPPORT MODAL */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:20;
+    }
+
+    .modal.show{display:flex}
+
+    .modal-card{
+      width:min(460px,100%);
+      background:var(--card);
+      color:var(--text);
+      border-radius:18px;
+      padding:24px;
+      position:relative;
+      box-shadow:0 20px 60px rgba(0,0,0,.25);
+    }
+
+    .close{
+      position:absolute;
+      right:12px;
+      top:10px;
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      font-size:28px;
+      cursor:pointer;
+    }
+
+    /* MOBILE */
+    @media(max-width:850px){
+      .top-header{grid-template-columns:1fr}
+      .clock-box{
+        border-left:0;
+        border-top:1px solid var(--border);
+        display:grid;
+        grid-template-columns:1fr 1fr;
+      }
+
+      .toolbar{grid-template-columns:repeat(2,1fr)}
+
+      .dashboard{
+        grid-template-columns:1fr;
+        grid-template-areas:
+          "qr"
+          "categories"
+          "comments"
+          "description"
+          "about"
+          "player";
+      }
+    }
+
+    @media(max-width:520px){
+      .page{width:96%;margin:8px auto}
+      .brand{min-height:125px}
+      .brand h1{font-size:38px}
+      .toolbar{grid-template-columns:1fr 1fr}
+      .tool-btn{padding:12px 7px;font-size:13px}
+      .clock-box{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 
 <body>
+  <div class="page">
 
-<header>
-  <h1>🎵 Bollywood Beats</h1>
-  <p>Hindi Music • Romantic Songs • Bollywood Videos</p>
-
-  <a class="btn"
-     href="https://youtube.com/@always_smile_14321"
-     target="_blank">
-     ▶ YouTube Channel
-  </a>
-</header>
-
-<main class="container">
-
-<!-- MUSIC -->
-
-<section>
-
-<h2 class="title">🎧 Music Player</h2>
-
-<div class="music-player">
-
-  <div class="cover">🎵</div>
-
-  <div class="now-playing">
-    <h2 id="songTitle">Jab Se Tumko Dekha</h2>
-    <p id="songArtist">Romantic Hindi Love Song</p>
-  </div>
-
-  <audio id="audioPlayer" controls preload="metadata">
-    <source
-      src="rahulsapkal-jab-se-tumko-dekha-romantic-hindi-love-song-552187.mp3"
-      type="audio/mpeg">
-  </audio>
-
-  <div class="playlist">
-
-    <div class="playlist-title">
-      🎶 Playlist
-    </div>
-
-    <div class="song active"
-         data-title="Jab Se Tumko Dekha"
-         data-artist="Romantic Hindi Love Song"
-         data-file="rahulsapkal-jab-se-tumko-dekha-romantic-hindi-love-song-552187.mp3">
-
-      <div class="song-icon">▶</div>
-
-      <div class="song-info">
-        <strong>Jab Se Tumko Dekha</strong>
-        <small>Romantic Hindi Love Song</small>
+    <!-- NAME + TIME + DATE -->
+    <header class="top-header">
+      <div class="brand">
+        <div>
+          <h1>🎵 Bollywood Beat</h1>
+          <p>Hindi Music • Romantic Songs • Bollywood Collection</p>
+        </div>
       </div>
 
+      <div class="clock-box">
+        <div>Time<strong id="time">--:--:--</strong></div>
+        <div>Date<strong id="date">--/--/----</strong></div>
+      </div>
+    </header>
+
+    <!-- ONLINE WATCH / THEME / SUPPORT / SEARCH -->
+    <nav class="toolbar">
+      <button class="tool-btn" onclick="showOnline()">👥 Online Watch</button>
+      <button id="themeToggle" class="tool-btn theme-btn" onclick="toggleTheme()" aria-label="Switch theme">🌙 Dark Mode</button>
+      <button class="tool-btn" onclick="openSupport()">🛟 Support</button>
+      <button class="tool-btn" onclick="toggleSearch()">🔎 Search</button>
+    </nav>
+
+    <div id="searchWrap" class="search-wrap">
+      <input id="searchInput" type="search" placeholder="Search song, artist or category..." oninput="filterSongs()">
+      <button class="search-btn" onclick="clearSearch()">Clear</button>
     </div>
 
+    <!-- MAIN LAYOUT -->
+    <main class="dashboard">
+
+      <!-- WEBSITE QR -->
+      <section class="box qr">
+        <h2>📱 Website QR</h2>
+        <img id="qrImage"
+             alt="Website QR Code"
+             src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fdeardeepakraj123.github.io%2Fbollywood-beat%2F">
+        <p class="small-note">Scan this QR code to open Bollywood Beat.</p>
+      </section>
+
+      <!-- SONG CATEGORY -->
+      <section class="box categories">
+        <h2>🎼 Song Category</h2>
+
+        <div class="category-list">
+          <button class="category active" data-category="all" onclick="filterCategory('all',this)">All</button>
+          <button class="category" data-category="90s" onclick="filterCategory('90s',this)">90s</button>
+          <button class="category" data-category="80s" onclick="filterCategory('80s',this)">80s</button>
+          <button class="category" data-category="2000s" onclick="filterCategory('2000s',this)">2000s</button>
+          <button class="category" data-category="2010s" onclick="filterCategory('2010s',this)">2010s</button>
+        </div>
+
+        <p class="small-note">Choose a category to filter the playlist.</p>
+      </section>
+
+      <!-- COMMENTS -->
+      <section class="box comments">
+        <h2>💬 Comment</h2>
+        <form class="comment-form" onsubmit="submitComment(event)">
+          <input id="commentName" type="text" placeholder="Your name" required>
+          <textarea id="commentText" rows="3" placeholder="Write a comment..." required></textarea>
+          <button type="submit">Post Comment</button>
+          <p id="commentMessage"></p>
+        </form>
+      </section>
+
+      <!-- DESCRIPTION -->
+      <section class="box description">
+        <h2>📝 Description</h2>
+        <p>
+          Welcome to Bollywood Beat — a simple Hindi music website for listening to
+          Bollywood songs. Browse songs by decade, search the playlist, switch between
+          light and dark themes, and use the built-in audio player.
+        </p>
+      </section>
+
+      <!-- ABOUT -->
+      <aside class="box about">
+        <h2>ℹ️ About</h2>
+        <p>
+          Bollywood Beat is a music-listening project. The site layout is designed
+          to work on both mobile phones and desktop screens.
+        </p>
+        <br>
+        <button class="support-btn" onclick="openSupport()">Contact Support</button>
+      </aside>
+
+      <!-- AUDIO PLAYER -->
+      <section class="box player">
+        <div class="player-inner">
+
+          <div class="now-playing">
+            <h2 id="songTitle">Jab Se Tumko Dekha</h2>
+            <p id="songArtist">Romantic Hindi Love Song</p>
+          </div>
+
+          <audio id="audioPlayer" controls preload="metadata"></audio>
+
+          <div id="playlist" class="playlist">
+
+            <!-- OLD SONG: KEEP THIS FILE IN THE SAME GITHUB REPOSITORY -->
+            <div class="song active"
+                 data-title="Jab Se Tumko Dekha"
+                 data-artist="Romantic Hindi Love Song"
+                 data-category="90s"
+                 data-file="rahulsapkal-jab-se-tumko-dekha-romantic-hindi-love-song-552187.mp3"
+                 onclick="playSong(this)">
+              <div class="song-icon">▶</div>
+              <div class="song-info">
+                <strong>Jab Se Tumko Dekha</strong>
+                <small>Romantic Hindi Love Song • 90s</small>
+              </div>
+            </div>
+
+            <!-- NEW SONG -->
+            <div class="song"
+                 data-title="Gali Mein Chand - Happy"
+                 data-artist="From Zakhm"
+                 data-category="90s"
+                 data-file="Gali Mein Chand - Happy (From Zakhm).mp3"
+                 onclick="playSong(this)">
+              <div class="song-icon">▶</div>
+              <div class="song-info">
+                <strong>Gali Mein Chand - Happy</strong>
+                <small>From Zakhm • 90s</small>
+              </div>
+            </div>
+
+          </div>
+
+          <p id="noResults" class="no-results">No matching songs found.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      © <span id="year"></span> Bollywood Beat • Hindi Music Collection
+    </footer>
   </div>
 
-</div>
-
-</section>
-
-
-<!-- SEARCH -->
-
-<section>
-
-<h2 class="title">🔎 Explore Bollywood Beats</h2>
-
-<input
-  type="search"
-  id="searchBox"
-  class="search"
-  placeholder="Search songs or videos...">
-
-<div class="categories">
-
-<button class="category" onclick="filterCategory('all')">
-All
-</button>
-
-<button class="category" onclick="filterCategory('bollywood')">
-Bollywood
-</button>
-
-<button class="category" onclick="filterCategory('romantic')">
-Romantic
-</button>
-
-<button class="category" onclick="filterCategory('90s')">
-90s Songs
-</button>
-
-</div>
-
-</section>
-
-
-<!-- VIDEOS -->
-
-<section>
-
-<h2 class="title">🎬 YouTube Videos</h2>
-
-<div class="video-grid">
-
-<div class="video-card searchable"
-     data-title="Bollywood Video"
-     data-category="bollywood">
-
-<h3>🎥 Bollywood Video</h3>
-
-<div class="video-wrapper">
-
-<iframe
-src="https://www.youtube.com/embed/JsT8DsyQxRw"
-title="Bollywood Beats Video"
-allowfullscreen>
-</iframe>
-
-</div>
-
-</div>
-
-
-<div class="video-card searchable"
-     data-title="Bollywood Video"
-     data-category="bollywood">
-
-<h3>🎥 Bollywood Video</h3>
-
-<div class="video-wrapper">
-
-<iframe
-src="https://www.youtube.com/embed/U1rv3E8Deh8"
-title="Bollywood Beats Video"
-allowfullscreen>
-</iframe>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- FOLLOW -->
-
-<section>
-
-<div class="follow">
-
-<h2>❤️ Follow Bollywood Beats</h2>
-
-<p>
-Watch more Hindi music and Bollywood videos.
-</p>
-
-<a class="btn"
-   href="https://youtube.com/@always_smile_14321"
-   target="_blank">
-   Subscribe on YouTube
-</a>
-
-</div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-© 2026 Bollywood Beats • Hindi Music & Entertainment
-
-</footer>
-
-
-<script>
-
-/* MUSIC PLAYER */
-
-const audio = document.getElementById("audioPlayer");
-const title = document.getElementById("songTitle");
-const artist = document.getElementById("songArtist");
-
-const songs = document.querySelectorAll(".song");
-
-songs.forEach(song => {
-
-  song.addEventListener("click", () => {
-
-    const file = song.dataset.file;
-
-    audio.src = file;
-
-    title.textContent = song.dataset.title;
-    artist.textContent = song.dataset.artist;
-
-    songs.forEach(s => s.classList.remove("active"));
-
-    song.classList.add("active");
-
-    audio.play();
-
-  });
-
-});
-
-
-/* SEARCH */
-
-const searchBox = document.getElementById("searchBox");
-
-searchBox.addEventListener("input", function(){
-
-  const search = this.value.toLowerCase();
-
-  document.querySelectorAll(".searchable").forEach(card => {
-
-    const text =
-      card.dataset.title.toLowerCase() +
-      " " +
-      card.dataset.category.toLowerCase();
-
-    if(text.includes(search)){
-      card.classList.remove("hidden");
-    }else{
-      card.classList.add("hidden");
+  <!-- SUPPORT MODAL -->
+  <div id="supportModal" class="modal" onclick="closeSupportOutside(event)">
+    <div class="modal-card">
+      <button class="close" onclick="closeSupport()">×</button>
+      <h2>🛟 Support</h2>
+      <p style="color:var(--muted);line-height:1.7;">
+        For website support, song-file issues or layout changes, update this section
+        with your preferred contact details.
+      </p>
+      <button class="support-btn" onclick="closeSupport()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const audio = document.getElementById("audioPlayer");
+    const title = document.getElementById("songTitle");
+    const artist = document.getElementById("songArtist");
+    const songs = Array.from(document.querySelectorAll(".song"));
+    let currentCategory = "all";
+
+    function updateClock(){
+      const now = new Date();
+
+      const time = new Intl.DateTimeFormat("en-IN", {
+        timeZone:"Asia/Kolkata",
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit",
+        hour12:true
+      }).format(now);
+
+      const date = new Intl.DateTimeFormat("en-IN", {
+        timeZone:"Asia/Kolkata",
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric"
+      }).format(now);
+
+      document.getElementById("time").textContent = time;
+      document.getElementById("date").textContent = date;
+      document.getElementById("year").textContent = new Intl.DateTimeFormat("en-IN", {
+        timeZone:"Asia/Kolkata",
+        year:"numeric"
+      }).format(now);
     }
 
-  });
+    updateClock();
+    setInterval(updateClock,1000);
 
-});
+    function playSong(el){
+      songs.forEach(song => song.classList.remove("active"));
+      el.classList.add("active");
 
+      const file = el.dataset.file;
+      audio.src = encodeURI(file);
+      title.textContent = el.dataset.title;
+      artist.textContent = el.dataset.artist;
 
-/* CATEGORY */
-
-function filterCategory(category){
-
-  document.querySelectorAll(".searchable").forEach(card => {
-
-    if(
-      category === "all" ||
-      card.dataset.category === category
-    ){
-
-      card.classList.remove("hidden");
-
-    }else{
-
-      card.classList.add("hidden");
-
+      audio.play().catch(() => {
+        // Browser may require the user to press Play manually.
+      });
     }
 
-  });
+    // Load first song without automatically playing it.
+    playSong(songs[0]);
 
-}
+    function applyTheme(theme){
+      const isDark = theme === "dark";
+      document.body.classList.toggle("dark", isDark);
 
-</script>
+      const button = document.getElementById("themeToggle");
+      if(button){
+        button.textContent = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+        button.setAttribute(
+          "aria-label",
+          isDark ? "Switch to light theme" : "Switch to dark theme"
+        );
+      }
+    }
 
+    function toggleTheme(){
+      const nextTheme = document.body.classList.contains("dark") ? "light" : "dark";
+      localStorage.setItem("bollywoodBeatTheme", nextTheme);
+      applyTheme(nextTheme);
+    }
+
+    // Restore the visitor's saved theme preference.
+    const savedTheme = localStorage.getItem("bollywoodBeatTheme") || "light";
+    applyTheme(savedTheme);
+
+    function toggleSearch(){
+      const wrap = document.getElementById("searchWrap");
+      wrap.classList.toggle("show");
+      if(wrap.classList.contains("show")){
+        document.getElementById("searchInput").focus();
+      }
+    }
+
+    function filterSongs(){
+      const query = document.getElementById("searchInput").value.toLowerCase().trim();
+      let visible = 0;
+
+      songs.forEach(song => {
+        const text = (
+          song.dataset.title + " " +
+          song.dataset.artist + " " +
+          song.dataset.category
+        ).toLowerCase();
+
+        const matchesQuery = text.includes(query);
+        const matchesCategory =
+          currentCategory === "all" ||
+          song.dataset.category === currentCategory;
+
+        const show = matchesQuery && matchesCategory;
+        song.style.display = show ? "flex" : "none";
+        if(show) visible++;
+      });
+
+      document.getElementById("noResults").style.display =
+        visible ? "none" : "block";
+    }
+
+    function clearSearch(){
+      document.getElementById("searchInput").value = "";
+      filterSongs();
+    }
+
+    function filterCategory(category, button){
+      currentCategory = category;
+
+      document.querySelectorAll(".category").forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+      filterSongs();
+    }
+
+    function submitComment(event){
+      event.preventDefault();
+
+      const name = document.getElementById("commentName").value.trim();
+      document.getElementById("commentMessage").textContent =
+        "Thanks " + name + "! Your comment was received on this page.";
+
+      document.getElementById("commentText").value = "";
+    }
+
+    function openSupport(){
+      document.getElementById("supportModal").classList.add("show");
+    }
+
+    function closeSupport(){
+      document.getElementById("supportModal").classList.remove("show");
+    }
+
+    function closeSupportOutside(event){
+      if(event.target.id === "supportModal"){
+        closeSupport();
+      }
+    }
+
+    function showOnline(){
+      alert("Online Watch: This button is ready for a live visitor counter. A real live count needs a small online database/service.");
+    }
+
+    // Make the QR point to the actual current website URL when hosted.
+    window.addEventListener("load", () => {
+      const qr = document.getElementById("qrImage");
+      const currentUrl = window.location.href;
+
+      if(currentUrl.startsWith("http")){
+        qr.src =
+          "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+          encodeURIComponent(currentUrl);
+      }
+    });
+  </script>
 </body>
 </html>
